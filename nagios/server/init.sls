@@ -54,10 +54,10 @@ nagios:
 {% if include_default_files == True %}
   {% do included_yaml_files.extend(default_included_yaml_files) %}
 {% endif %}
-{% set configs = [] %}
+{% set configs = {} %}
 {% for included_yaml_file in included_yaml_files %}
   {% import_yaml included_yaml_file as cfg_file %}
-  {% do configs.extend(cfg_file) %}
+  {% do configs.update(cfg_file) %}
 {% endfor %}
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
