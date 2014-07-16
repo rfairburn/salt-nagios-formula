@@ -1,7 +1,7 @@
 nagios
 =======
 
-Set up nagios and nrpe.
+Salt formula to set up and manage nagios and nrpe.
 
 .. note::
 
