@@ -39,6 +39,16 @@ nagios:
     - watch_in:
       - service: {{ map.service }}
 
+/etc/nagios/private/resource.cfg:
+  file.managed:
+    - user: nagios
+    - group: nagios
+    - mode: '0660'
+    - template: jinja
+    - source: salt://nagios/server/files/private/resource.cfg
+    - watch_in:
+      - service: {{ map.service }}
+
 
 {% set default_included_yaml_files = ['nagios/server/files/objects/commands.yaml',
                                      'nagios/server/files/objects/contacts.yaml',
