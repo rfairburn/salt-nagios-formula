@@ -1,0 +1,12 @@
+/etc/nagios/objects/contacts.cfg:
+  contact:
+    nagiosadmin:
+      contact_name: 'nagiosadmin '
+      use: 'generic-contact '
+      alias: 'Nagios Admin '
+      email: 'nagios@localhost '
+  contactgroup:
+    admins:
+      contactgroup_name: 'admins'
+      alias: 'Nagios Administrators'
+      members: 'nagiosadmin'
