@@ -27,8 +27,8 @@ nrpe:
     - user: nrpe
     - group: nrpe
 
-{% nrpe = pillar.get('nrpe', {}) %}
-{% additional_configs = nrpe.get('additional_configs', {} %}
+{% set nrpe = pillar.get('nrpe', {}) %}
+{% set additional_configs = nrpe.get('additional_configs', {} %}
 # FIXME: probably should support external yaml files like the main nagios configs
 # but these will typically be much smaller files
 {% for file_name,context in additional_configs.items() %}
