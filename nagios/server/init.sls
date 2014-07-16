@@ -47,7 +47,7 @@ nagios:
     - group: apache
     - mode: '0640'
     - template: jinja
-    - source: salt://nagios/server/files/nagios.cfg
+    - source: salt://nagios/server/files/passwd
 
 /etc/nagios/private/resource.cfg:
   file.managed:
