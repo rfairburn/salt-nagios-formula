@@ -26,3 +26,22 @@ nrpe:
       - service: {{ map.service }}
     - user: nrpe
     - group: nrpe
+
+{% nrpe = pillar.get('nrpe', {}) %}
+{% additional_configs = nrpe.get('additional_configs', {} %}
+# FIXME: probably should support external yaml files like the main nagios configs
+# but these will typically be much smaller files
+{% for file_name,context in additional_configs.items() %}
+{{ file_name }}:
+  file.managed:
+    - user: nrpe
+    - group: nrpe
+    - mode: 664
+    - template: jinja
+    - source: salt://nagios/nrpe/files/cfg_file.sls
+    - context:
+        configs:
+          {{ context }}
+    - watch_in:
+      - service: {{ map.service }}
+{% endfor %}
