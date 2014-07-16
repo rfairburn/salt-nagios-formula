@@ -1,5 +1,5 @@
-{%- set options = config.get(options, {}) -%}
-{%- set commands = config.get(commands, {}) -%}
+{%- set options = config.get('options', {}) -%}
+{%- set commands = config.get('commands', {}) -%}
 {% for option_name,option in options.items() -%}
 {{ option_name }}={{ option }}
 {% endfor -%}
