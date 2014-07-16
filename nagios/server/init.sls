@@ -39,6 +39,16 @@ nagios:
     - watch_in:
       - service: {{ map.service }}
 
+# Possibly have it watch apache service for passwd?
+# Would make an apache formula a dependency.
+/etc/nagios/passwd:
+  file.managed:
+    - user: root
+    - group: apache
+    - mode: '0640'
+    - template: jinja
+    - source: salt://nagios/server/files/nagios.cfg
+
 /etc/nagios/private/resource.cfg:
   file.managed:
     - user: nagios
