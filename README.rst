@@ -9,7 +9,7 @@ Salt formula to set up and manage nagios and nrpe.
     <http://docs.saltstack.com/topics/conventions/formulas.html>`_.
 
 Available states
-===============
+================
 
 ``nagios``
 ----------
@@ -23,7 +23,11 @@ Available states
 ----------
     Setup nrpe and auto populate server to be monitored with default checks
 
+
+Example Pillar:
+
 .. code:: yaml
+
     nagios:
       config:
         high_service_flap_threshold: 22.0
