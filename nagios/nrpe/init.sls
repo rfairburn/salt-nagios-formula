@@ -1,5 +1,8 @@
+{% from "nagios/nrpe/map.jinja" import map with context %}
 
-nstalled
+nrpe:
+  pkg:
+    - installed
     - pkgs: {{ map.pkgs|json }}
   service:
     - running
@@ -15,10 +18,9 @@ nstalled
     - groups:
       - nrpe
 
-/etc/nrpe:
+/etc/nagios/nrpe.cfg:
   file.managed:
-    - recurse
-    - source: salt://nagios/nrpe/files
+    - source: salt://nagios/nrpe/files/nrpe.cfg
     - template: jinja
     - watch_in:
       - service: {{ map.service }}
