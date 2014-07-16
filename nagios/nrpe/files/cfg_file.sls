@@ -3,6 +3,6 @@
 {% for option_name,option in options.items() -%}
 {{ option_name }}={{ option }}
 {% endfor -%}
-{% for command_name,command in options.items() -%}
+{% for command_name,command in commands.items() -%}
 command[{{ command_name }}]={{ command }}
 {% endfor -%}
