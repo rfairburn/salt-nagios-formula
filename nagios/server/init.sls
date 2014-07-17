@@ -121,32 +121,32 @@ nagios:
     {% for filename,template in autocheck_configs.items() %}
       {{ filename }}:
 ## Is there a sane default here if the mine is not setup?
-      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() -%}
 ## setup templated items:
-        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4[0]')) %}
-        {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
-        {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
+        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4[0]')) -%}
+        {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) -%}
+        {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) -%}
 # save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
         {% set template_replacements = {
                  '__address': address,
                  '__alias': alias,
                  '__host_name': host_name,
                }
-        %}
-        {% for define_type, defines in template.items() %}
+        -%}
+        {% for define_type, defines in template.items() -%}
         {{ define_type }}:
-          {% for define_name,define_value in defines.items() %}
-            {% for replacement_name, replacement_value in template_replacements.items() %}
-              {% if define_value == replacement_name %}
-                {% set define_value = replacement_value %}
-              {% endif %}
-            {% endfor %}
+          {% for define_name,define_value in defines.items() -%}
+            {% for replacement_name, replacement_value in template_replacements.items() -%}
+              {% if define_value == replacement_name -%}
+                {% set define_value = replacement_value -%}
+              {% endif -%}
+            {% endfor -%}
           {{ define_name }}: {{ define_value }}  
-          {% endfor %}
-        {% endfor %}
-      {% endfor %}
-    {% endfor %}
-  {% endload %}
+          {% endfor -%}
+        {% endfor -%}
+      {% endfor -%}
+    {% endfor -%}
+  {% endload -%}
   {% do configs.update(cfg_files) %}
 {% endif %}
 {% for file_name,context in configs.items() %}
