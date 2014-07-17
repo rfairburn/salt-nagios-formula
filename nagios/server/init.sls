@@ -155,7 +155,7 @@ nagios:
     - user: nagios
     - group: nagios
     - mode: 664
-    - content:
+    - contents:
         {{ configs }}
 
 #{% for file_name,context in configs.items() %}
