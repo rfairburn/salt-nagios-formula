@@ -83,7 +83,7 @@ nagios:
 {% if autogenerate_checks == True %}
 # Load from the pillar first
   {% set autocheck_configs = nagios.get('autocheck_configs', {}) %}
-  {% set use_default_autocheck_template = nagios.get('use_default_autocheck_template, True %}
+  {% set use_default_autocheck_template = nagios.get('use_default_autocheck_template', True) %}
   {% if use_default_autocheck_template == True %}
     {% import_yaml 'nagios/server/objects/autocheck_template.yaml' as cfg_file %}
     {% do configs.update(cfg_file) %}
