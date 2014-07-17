@@ -121,7 +121,7 @@ nagios:
     {% for filename,template in autocheck_configs.items() %}
       {{ filename }}:
 ## Is there a sane default here if the mine is not setup?
-      {% for minion_id,minion_grains in mine.get('*', 'grains.items') %}
+      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
 ## setup templated items:
         {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4[0]')) %}
         {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
