@@ -91,10 +91,11 @@ nagios:
     {% load_yaml as default_autocheck_cfg %}
       /etc/nagios/objects/autogen_hosts.cfg:
         host:
-          use: linux-server
-          host_name: __host_name
-          alias: __alias
-          address: __address
+          host_name:
+            use: linux-server
+            host_name: __host_name
+            alias: __alias
+            address: __address
         service:
           check-load:
             use: 'check-load'
@@ -134,16 +135,18 @@ nagios:
           '__alias': {{ alias }}
           '__host_name': {{ host_name }}
         {% endload %}
-        template_replacements: "{{ template_replacements }}"
-        {% for define_type, defines in template.items() -%}
-        {{ define_type }}:
-          {% for define_name,define_value in defines.items() -%}
-            {% for replacement_name, replacement_value in template_replacements.items() -%}
-              {% if define_value == replacement_name -%}
-                {% set define_value = replacement_value -%}
-              {% endif -%}
+        {% for object_type, objects in template.items() -%}
+        {{ object_type }}:
+          {% for object_name, defines in objects.items() -%}
+          {{ object_name }}:
+            {% for define_name,define_value in defines.items() -%}
+              {% for replacement_name, replacement_value in template_replacements.items() -%}
+                {% if define_value == replacement_name -%}
+                  {% set define_value = replacement_value -%}
+                {% endif -%}
+              {% endfor -%}
+            {{ define_name }}: {{ define_value }}  
             {% endfor -%}
-          {{ define_name }}: {{ define_value }}  
           {% endfor -%}
         {% endfor -%}
       {% endfor -%}
