@@ -134,7 +134,6 @@ nagios:
           '__alias': {{ alias }}
           '__host_name': {{ host_name }}
         {% endload %}
-        {{ template_replacements }}
         {% for define_type, defines in template.items() -%}
         {{ define_type }}:
           {% for define_name,define_value in defines.items() -%}
