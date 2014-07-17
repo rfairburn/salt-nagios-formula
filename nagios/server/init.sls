@@ -79,6 +79,43 @@ nagios:
   {% import_yaml included_yaml_file as cfg_file %}
   {% do configs.update(cfg_file) %}
 {% endfor %}
+{% set autogenerate_checks = nagios.get('autogenerate_checks', True) %}
+{% if autogenerate_checks == True %}
+# Load from the pillar first
+  {% set autocheck_configs = nagios.get('autocheck_configs', {}) %}
+  {% set use_default_autocheck_template = nagios.get('use_default_autocheck_template, True %}
+  {% if use_default_autocheck_template == True %}
+    {% import_yaml 'nagios/server/objects/autocheck_template.yaml' as cfg_file %}
+    {% do configs.update(cfg_file) %}
+# Default autogen_hosts_file
+    {% load_yaml as default_autocheck_cfg %}
+      /etc/nagios/objects/autogen_hosts.cfg:
+        host:
+          use: linux-server
+          host_name: __host_name
+          alias: __alias
+          address: __address
+        service:
+          check-load:
+            use: 'check-load'
+            host_name: __host_name
+          check-users:
+            use: 'check-users'
+            host_name: __host_name
+          check-totprocs:
+            use: 'check-totprocs'
+            host_name: __host_name
+          check-zombie-procs:
+            use: 'check-zombie-procs'
+            host_name: __host_name
+          check-all-disks:
+            use: 'check-all-disks'
+            host_name: __host_name
+          check-swap:
+    {% endload %}
+    {% do autocheck_configs.update(default_autocheck_cfg) %}
+  {% endif %}
+{% endif %}
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
   file.managed:
