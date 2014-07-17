@@ -161,7 +161,7 @@ nagios:
     - mode: 664
     - contents:
         {{ configs|json }}
-        {{ template_replacements|json }}
+        {{ template_replacements }}
 
 #{% for file_name,context in configs.items() %}
 #{{ file_name }}:
