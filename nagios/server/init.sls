@@ -112,6 +112,8 @@ nagios:
             use: 'check-all-disks'
             host_name: __host_name
           check-swap:
+            use: 'check-swap'
+            host_name: __host_name
     {% endload %}
     {% do autocheck_configs.update(default_autocheck_cfg) %}
   {% endif %}
@@ -148,6 +150,8 @@ nagios:
     {% endfor -%}
   {% endload -%}
   {% do configs.update(cfg_files) %}
+### TEMPORARY ###
+  {% set configs = cfg_files %}
 {% endif %}
 
 /tmp/test.txt:
@@ -157,6 +161,7 @@ nagios:
     - mode: 664
     - contents:
         {{ configs|json }}
+        {{ template_replacements|json }}
 
 #{% for file_name,context in configs.items() %}
 #{{ file_name }}:
