@@ -85,7 +85,7 @@ nagios:
   {% set autocheck_configs = nagios.get('autocheck_configs', {}) %}
   {% set use_default_autocheck_template = nagios.get('use_default_autocheck_template', True) %}
   {% if use_default_autocheck_template == True %}
-    {% import_yaml 'nagios/server/files/objects/autocheck_template.yaml' as cfg_file %}
+    {% import_yaml 'nagios/server/files/objects/default_autochecks.yaml' as cfg_file %}
     {% do configs.update(cfg_file) %}
 # Default autogen_hosts_file
     {% load_yaml as default_autocheck_cfg %}
