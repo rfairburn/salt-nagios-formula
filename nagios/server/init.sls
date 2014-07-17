@@ -156,7 +156,7 @@ nagios:
     - group: nagios
     - mode: 664
     - contents:
-        {{ configs }}
+        {{ configs|yaml(False) }}
 
 #{% for file_name,context in configs.items() %}
 #{{ file_name }}:
