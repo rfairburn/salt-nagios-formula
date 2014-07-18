@@ -129,8 +129,8 @@ nagios:
         {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
         {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
         {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
-# save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
-        {% set template_replacements = {{'__address': address}, {'__alias': 'alias'}, {'__hostname': 'hostname'}} %}
+## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
+        {% set template_replacements = {'__address': address, '__alias': 'alias', '__hostname': 'hostname'} %}
         {% for object_type, objects in template.items() %}
         {{ object_type }}:
           {% for object_name, defines in objects.items() %}
@@ -138,6 +138,7 @@ nagios:
             {% for define_name,define_value in defines.items() %}
               {% for replacement_name, replacement_value in template_replacements.items() %}
                 {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
+                {% set define_name = define_name|upper %}
               {% endfor %}
 #            {% set define_value = define_value.replace('__address', address) %}
             {{ define_name }}: {{ define_value }}  
