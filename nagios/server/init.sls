@@ -131,7 +131,7 @@ nagios:
         {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
 # save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
         {% load_yaml as template_replacements %}
-          '__address': '{{ address }}'
+          '__address': '{{ minion_id }}'
           '__alias': '{{ alias }}'
           '__host_name': '{{ host_name }}'
         {% endload %}
