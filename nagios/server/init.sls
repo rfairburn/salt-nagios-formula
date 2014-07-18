@@ -143,7 +143,7 @@ nagios:
 #              {% for replacement_name, replacement_value in template_replacements.items() %}
 #                {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
 #              {% endfor %}
-            {% set define_value = define_value.replace('__address', '127.0.0.1') %}
+            {% set define_value = define_value.replace('__address', address) %}
             {{ define_name }}: {{ define_value }}  
             {% endfor %}
           {% endfor %}
