@@ -149,25 +149,17 @@ nagios:
   {% do configs.update(cfg_files) %}
 {% endif %}
 
-/tmp/test.txt:
+{% for file_name,context in configs.items() %}
+{{ file_name }}:
   file.managed:
     - user: nagios
     - group: nagios
     - mode: 664
-    - contents:
-        {{ configs|json }}
-
-#{% for file_name,context in configs.items() %}
-#{{ file_name }}:
-#  file.managed:
-#    - user: nagios
-#    - group: nagios
-#    - mode: 664
-#    - template: py
-#    - source: salt://nagios/server/files/cfg_file.py
-#    - context:
-#        configs: 
-#          {{ context }}
-#    - watch_in:
-#      - service: {{ map.service }}
-#{% endfor %}
+    - template: py
+    - source: salt://nagios/server/files/cfg_file.py
+    - context:
+        configs: 
+          {{ context }}
+    - watch_in:
+      - service: {{ map.service }}
+{% endfor %}
