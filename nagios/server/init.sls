@@ -141,9 +141,7 @@ nagios:
           {{ object_name }}:
             {% for define_name,define_value in defines.items() -%}
               {% for replacement_name, replacement_value in template_replacements.items() -%}
-                {% if define_value == replacement_name -%}
-                  {% set define_value = replacement_value -%}
-                {% endif -%}
+                {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
               {% endfor -%}
             {{ define_name }}: {{ define_value }}  
             {% endfor -%}
