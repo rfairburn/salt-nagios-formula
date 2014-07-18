@@ -120,36 +120,36 @@ nagios:
   {% endif %}
 # Try and limit the number of files created with autogeneration as it 
 # has to walk all the grains for all the hosts once per file.
-  {% load_yaml as cfg_files -%}
-    {% for filename,template in autocheck_configs.items() -%}
+  {% load_yaml as cfg_files %}
+    {% for filename,template in autocheck_configs.items() %}
       {{ filename }}:
 ## Is there a sane default here if the mine is not setup?
-      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() -%}
+      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
 ## setup templated items:
-        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) -%}
-        {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) -%}
-        {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) -%}
+        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
+        {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
+        {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
 # save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
         {% set template_replacements = {
           '__address': address,
           '__alias': alias,
           '__host_name': host_name,
-        } -%}
-        {% for object_type, objects in template.items() -%}
+        } %}
+        {% for object_type, objects in template.items() %}
         {{ object_type }}:
-          {% for object_name, defines in objects.items() -%}
+          {% for object_name, defines in objects.items() %}
           {{ object_name }}:
-            {% for define_name,define_value in defines.items() -%}
-              {% for replacement_name, replacement_value in template_replacements.items() -%}
+            {% for define_name,define_value in defines.items() %}
+              {% for replacement_name, replacement_value in template_replacements.items() %}
                 {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
-              {% endfor -%}
+              {% endfor %}
             {{ define_name }}: {{ define_value }}  
-            {% endfor -%}
-          {% endfor -%}
-        {% endfor -%}
-      {% endfor -%}
-    {% endfor -%}
-  {% endload -%}
+            {% endfor %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  {% endload %}
   {% do configs.update(cfg_files) %}
 ### TEMPORARY ###
   {% set configs = cfg_files %}
