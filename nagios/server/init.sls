@@ -126,7 +126,7 @@ nagios:
 ## Is there a sane default here if the mine is not setup?
       {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() -%}
 ## setup templated items:
-        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4[0]')) -%}
+        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) -%}
         {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) -%}
         {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) -%}
 # save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
