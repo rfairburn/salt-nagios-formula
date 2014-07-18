@@ -120,33 +120,45 @@ nagios:
   {% endif %}
 # Try and limit the number of files created with autogeneration as it 
 # has to walk all the grains for all the hosts once per file.
-  {% load_yaml as cfg_files %}
-    {% for filename,template in autocheck_configs.items() %}
-      {{ filename }}:
-        {% for object_type, objects in template.items() %}
-        {{ object_type }}:
+# Plus an additional walk of all the grains to see if the nagios or nagios.nrpe role is defined
+  {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+    {% set minion_roles = minion_grains.get('roles', []) %}
+    {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
+      {% set process_autoconfig = True %}
+    {% endif %}
+  {% endfor %} 
+  {% if process_autoconfig == True %} 
+    {% load_yaml as cfg_files %}
+      {% for filename,template in autocheck_configs.items() %}
+        {{ filename }}:
+          {% for object_type, objects in template.items() %}
+          {{ object_type }}:
 ## Is there a sane default here if the mine is not setup?
-        {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+          {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+            {% set minion_roles = minion_grains.get('roles', []) %}
+            {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
 ## setup templated items:
-          {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
-          {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
-          {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
+              {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
+              {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
+              {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
 ## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
-          {% for object_name, defines in objects.items() %}
-          {{ object_name }}_{{ host_name }}:
-            {% for define_name,define_value in defines.items() %}
+              {% for object_name, defines in objects.items() %}
+            {{ object_name }}_{{ host_name }}:
+                {% for define_name,define_value in defines.items() %}
 ## Super ugly. Find a better way to iterate these.
-              {% set define_value = define_value.replace('__alias', alias) %}
-              {% set define_value = define_value.replace('__host_name', host_name) %}
-              {% set define_value = define_value.replace('__address', address) %}
-            {{ define_name }}: {{ define_value }}  
-            {% endfor %}
+                  {% set define_value = define_value.replace('__alias', alias) %}
+                  {% set define_value = define_value.replace('__host_name', host_name) %}
+                  {% set define_value = define_value.replace('__address', address) %}
+              {{ define_name }}: {{ define_value }}  
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
           {% endfor %}
         {% endfor %}
       {% endfor %}
-    {% endfor %}
-  {% endload %}
-  {% do configs.update(cfg_files) %}
+    {% endload %}
+    {% do configs.update(cfg_files) %}
+  {% endif %}
 {% endif %}
 
 {% for file_name,context in configs.items() %}
