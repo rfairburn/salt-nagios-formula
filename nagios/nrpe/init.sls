@@ -14,7 +14,7 @@ nrpe:
   user:
     - present
     - shell: /bin/false
-    - home: /usr/share/nagios
+    - home: /var/run/nrpe
     - groups:
       - nrpe
 
