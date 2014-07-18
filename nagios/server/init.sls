@@ -123,17 +123,17 @@ nagios:
   {% load_yaml as cfg_files %}
     {% for filename,template in autocheck_configs.items() %}
       {{ filename }}:
-## Is there a sane default here if the mine is not setup?
-      {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
-## setup templated items:
-        {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
-        {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
-        {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
-## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
         {% for object_type, objects in template.items() %}
         {{ object_type }}:
+## Is there a sane default here if the mine is not setup?
+        {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+## setup templated items:
+          {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
+          {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
+          {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
+## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
           {% for object_name, defines in objects.items() %}
-          {{ object_name }}:
+          {{ object_name }}_{{ host_name }}:
             {% for define_name,define_value in defines.items() %}
 ## Super ugly. Find a better way to iterate these.
               {% set define_value = define_value.replace('__alias', alias) %}
@@ -148,14 +148,6 @@ nagios:
   {% endload %}
   {% do configs.update(cfg_files) %}
 {% endif %}
-{% set infos = salt['mine.get']('*', 'grains.items') %}
-/tmp/x:
-  file.managed:
-    - user: nagios
-    - group: nagios
-    - mode: 664
-    - contents:
-        {{ infos|yaml }}
 
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
