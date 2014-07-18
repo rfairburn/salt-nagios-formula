@@ -14,7 +14,7 @@ nrpe:
   user:
     - present
     - shell: /bin/false
-    - home: /var/run/nrpe
+    - home: '/var/run/nrpe'
     - groups:
       - nrpe
 
