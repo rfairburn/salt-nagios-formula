@@ -120,11 +120,9 @@ nagios:
   {% endif %}
 # Try and limit the number of files created with autogeneration as it 
 # has to walk all the grains for all the hosts once per file.
-  {% set x = 0 %}
   {% load_yaml as cfg_files %}
     {% for filename,template in autocheck_configs.items() %}
       {{ filename }}:
-      {% set x = x + 1 %}
 ## Is there a sane default here if the mine is not setup?
       {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
 ## setup templated items:
@@ -150,14 +148,14 @@ nagios:
   {% endload %}
   {% do configs.update(cfg_files) %}
 {% endif %}
-
+{% set infos = salt['mine.get']('*', 'grains.items').items() %}
 /tmp/x:
   file.managed:
     - user: nagios
     - group: nagios
     - mode: 664
     - contents:
-        {{ x }}
+        {{ infos }}
 
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
