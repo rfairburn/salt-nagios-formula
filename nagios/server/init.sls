@@ -148,14 +148,14 @@ nagios:
   {% endload %}
   {% do configs.update(cfg_files) %}
 {% endif %}
-{% set infos = salt['mine.get']('*', 'grains.items').items() %}
+{% set infos = salt['mine.get']('*', 'grains.items') %}
 /tmp/x:
   file.managed:
     - user: nagios
     - group: nagios
     - mode: 664
     - contents:
-        {{ infos }}
+        {{ infos|yaml }}
 
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
