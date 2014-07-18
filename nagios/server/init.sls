@@ -140,9 +140,10 @@ nagios:
           {% for object_name, defines in objects.items() %}
           {{ object_name }}:
             {% for define_name,define_value in defines.items() %}
-              {% for replacement_name, replacement_value in template_replacements.items() %}
-                {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
-              {% endfor %}
+#              {% for replacement_name, replacement_value in template_replacements.items() %}
+#                {% set define_value = define_value.replace(replacement_name, replacement_value) %}  
+#              {% endfor %}
+            {% set define_value = define_value.replace('__address', '127.0.0.1') %}
             {{ define_name }}: {{ define_value }}  
             {% endfor %}
           {% endfor %}
