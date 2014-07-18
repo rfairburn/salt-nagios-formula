@@ -147,8 +147,6 @@ nagios:
     {% endfor %}
   {% endload %}
   {% do configs.update(cfg_files) %}
-### TEMPORARY ###
-  {% set configs = cfg_files %}
 {% endif %}
 
 /tmp/test.txt:
