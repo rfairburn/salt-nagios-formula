@@ -133,7 +133,7 @@ nagios:
     - user: nagios
     - group: nagios
     - mode: 664
-    - contents: '{{ process_autoconfig }}'
+    - contents: {{ all_minion_grains.values() }}
 
   {% if process_autoconfig == True %} 
     {% load_yaml as cfg_files %}
