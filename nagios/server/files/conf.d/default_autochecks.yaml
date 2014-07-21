@@ -1,4 +1,8 @@
 /etc/nagios/conf.d/default_autochecks.cfg:
+  command:
+    check_nrpe:
+      command_line: '$USER1$/check_nrpe -u -H $HOSTADDRESS$ -c $ARG1$'
+      command_name: 'check_nrpe'
   service:
     nrpe-check-load:
       use: 'generic-service'
