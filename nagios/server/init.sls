@@ -136,6 +136,14 @@ nagios:
         [{{ minion_roles }}, 
         '{{ process_autoconfig }}']
   {% endfor %} 
+
+/tmp/process_autoconfig:
+  file.managed:
+    - user: nagios
+    - group: nagios
+    - mode: 664
+    - contents: '{{ process_autoconfig }}'
+
   {% if process_autoconfig == True %} 
     {% load_yaml as cfg_files %}
       {% for filename,template in autocheck_configs.items() %}
