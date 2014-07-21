@@ -124,7 +124,7 @@ nagios:
 
 # This hack has to do with not being able to get a variable globally that was modified in a
 # for loop.  Suggestions on how to improve with a macro or external py renderer are welcome.
-  {% load_yaml as process_autoconfig_list % }
+  {% load_yaml as process_autoconfig_list %}
     [
     {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
       {% set minion_roles = minion_grains.get('roles', []) %}
