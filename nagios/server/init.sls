@@ -96,10 +96,6 @@ nagios:
 # Default autogen_hosts_file
     {% load_yaml as default_autocheck_cfg %}
       /etc/nagios/conf.d/autogen_hosts.cfg:
-        command:
-          check_nrpe:
-            command_line: '$USER1$/check_nrpe -u -H $HOSTADDRESS$ -c $ARG1$'
-            command_name: 'check_nrpe'
         host:
           host_name:
             use: linux-server
