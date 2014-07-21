@@ -107,19 +107,19 @@ nagios:
             use: 'nrpe-check-load'
             host_name: __host_name
           nrpe-check-users:
-            use: 'check-users'
+            use: 'nrpe-check-users'
             host_name: __host_name
           nrpe-check-totprocs:
-            use: 'check-totprocs'
+            use: 'nrpe-check-totprocs'
             host_name: __host_name
           nrpe-check-zombie-procs:
-            use: 'check-zombie-procs'
+            use: 'nrpe-check-zombie-procs'
             host_name: __host_name
           nrpe-check-all-disks:
-            use: 'check-all-disks'
+            use: 'nrpe-check-all-disks'
             host_name: __host_name
           nrpe-check-swap:
-            use: 'check-swap'
+            use: 'nrpe-check-swap'
             host_name: __host_name
           nrpe-check-salt-minion:
             use: 'nrpe-check-salt-minion'
