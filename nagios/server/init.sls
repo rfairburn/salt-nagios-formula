@@ -95,7 +95,7 @@ nagios:
     {% do configs.update(cfg_file) %}
 # Default autogen_hosts_file
     {% load_yaml as default_autocheck_cfg %}
-      /etc/nagios/objects/autogen_hosts.cfg:
+      /etc/nagios/conf.d/autogen_hosts.cfg:
         host:
           host_name:
             use: linux-server
