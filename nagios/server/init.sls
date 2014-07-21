@@ -103,23 +103,26 @@ nagios:
             alias: __alias
             address: __address
         service:
-          check-load:
-            use: 'check-load'
+          nrpe-check-load:
+            use: 'nrpe-check-load'
             host_name: __host_name
-          check-users:
+          nrpe-check-users:
             use: 'check-users'
             host_name: __host_name
-          check-totprocs:
+          nrpe-check-totprocs:
             use: 'check-totprocs'
             host_name: __host_name
-          check-zombie-procs:
+          nrpe-check-zombie-procs:
             use: 'check-zombie-procs'
             host_name: __host_name
-          check-all-disks:
+          nrpe-check-all-disks:
             use: 'check-all-disks'
             host_name: __host_name
-          check-swap:
+          nrpe-check-swap:
             use: 'check-swap'
+            host_name: __host_name
+          nrpe-check-salt-minion:
+            use: 'nrpe-check-salt-minion'
             host_name: __host_name
     {% endload %}
     {% do autocheck_configs.update(default_autocheck_cfg) %}
