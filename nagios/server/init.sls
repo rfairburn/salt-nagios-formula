@@ -139,13 +139,6 @@ nagios:
   {% else %}
     {% set process_autoconfig = False %} 
   {% endif %}
-/tmp/process_autoconfig:
-  file.managed:
-    - user: nagios
-    - group: nagios
-    - mode: 664
-    - contents: {{ process_autoconfig }}
-
   {% if process_autoconfig == True %} 
     {% load_yaml as cfg_files %}
       {% for filename,template in autocheck_configs.items() %}
