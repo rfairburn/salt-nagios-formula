@@ -31,8 +31,18 @@ nrpe:
 {% set additional_configs = {} %}
 {% set use_default_autocheck_template = nrpe.get('use_default_autocheck_template', True) %}
 {% if use_default_autocheck_template == True %}
+# get all nagios servers
+  {% load_yaml as allowed_hosts %}
+    {% for minion_id, minion_grains in salt[mine.get]('*', grains.items, {}).items() %}
+      {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
+        - {{ minion_grains.get('ipv4')[0] }}
+      {% endif %}
+    {% endfor %}
+  {% end_load %}
   {% load_yaml as additional_config %}
 /etc/nrpe.d/_default_autochecks.cfg:
+  options:
+    allowed_hosts: {{ allowed_hosts|join(',') }}
   commands:
     check_all_disks: '/usr/lib64/nagios/plugins/check_disk -w 20 -c 10 -A -l -X tmpfs -X devtmpfs'
     check_total_procs: '/usr/lib64/nagios/plugins/check_procs -w 150 -c 200'
