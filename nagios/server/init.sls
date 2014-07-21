@@ -122,8 +122,23 @@ nagios:
 # has to walk all the grains for all the hosts once per file.
 # Plus an additional walk of all the grains to see if the nagios or nagios.nrpe role is defined
 
-  {% from 'nagios/server/process_autoconfig.py' import process_autoconfig %}
-
+# This hack has to do with not being able to get a variable globally that was modified in a
+# for loop.  Suggestions on how to improve with a macro or external py renderer are welcome.
+  {% load_yaml as process_autoconfig_list % }
+    [
+    {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
+      {% set minion_roles = minion_grains.get('roles', []) %}
+      {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
+        True,
+      {% endif %}
+    {% endfor %}
+    ]
+  {% endload %}
+  {% if True in process_autoconfig_list %}
+    {% set process_autoconfig = True %}
+  {% else %}
+    {% set process_autoconfig = False %} 
+  {% endif %}
 /tmp/process_autoconfig:
   file.managed:
     - user: nagios
