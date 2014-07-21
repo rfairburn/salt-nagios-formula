@@ -129,12 +129,12 @@ nagios:
       - mode: 664
       - contents:
           {{ minion_roles }}
-    {% set process_autoconfig = False %}
+    {% set process_autoconfig = 'False' %}
     {% if ('nagios' in minion_roles) or ('nagios.nrpe' in minion_roles) %}
-      {% set process_autoconfig = True %}
+      {% set process_autoconfig = 'True' %}
     {% endif %}
   {% endfor %} 
-  {% if process_autoconfig == True %} 
+  {% if process_autoconfig == 'True' %} 
     {% load_yaml as cfg_files %}
       {% for filename,template in autocheck_configs.items() %}
         {{ filename }}:
