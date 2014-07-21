@@ -159,7 +159,7 @@ nagios:
             {% set minion_roles = minion_grains.get('roles', []) %}
             {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
 ## setup templated items:
-              {% set address = minion_grains.get('nagios:address', minion_grains.get('ipv4')[0]) %}
+              {% set address = minion_grains.get('nagios:address', minion_grains.get('fqdn') %}
               {% set alias = minion_grains.get('nagios:alias', minion_grains.get('fqdn').replace('.','-')) %}
               {% set host_name = minion_grains.get('nagios:host_name', minion_grains.get('fqdn').replace('.','-')) %}
 ## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
