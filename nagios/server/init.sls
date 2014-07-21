@@ -133,7 +133,7 @@ nagios:
     - group: nagios
     - mode: 664
     - contents:
-        ['{{ minion_roles }}', 
+        [{{ minion_roles }}, 
         '{{ process_autoconfig }}']
   {% endfor %} 
   {% if process_autoconfig == True %} 
