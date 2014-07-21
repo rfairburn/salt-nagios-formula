@@ -123,12 +123,12 @@ nagios:
 # Plus an additional walk of all the grains to see if the nagios or nagios.nrpe role is defined
   {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
     {% set minion_roles = minion_grains.get('roles', []) %}
-    /tmp/{{ minion_id }}:
-      file.managed:
-        - user: nagios
-        - group: nagios
-        - mode: 664
-        - contents: {{ minion_roles }}
+/tmp/{{ minion_id }}:
+  file.managed:
+    - user: nagios
+    - group: nagios
+    - mode: 664
+    - contents: {{ minion_roles }}
     {% set process_autoconfig = False %}
     {% if ('nagios' in minion_roles) or ('nagios.nrpe' in minion_roles) %}
       {% set process_autoconfig = True %}
