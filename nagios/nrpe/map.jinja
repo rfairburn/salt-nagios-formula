@@ -1,10 +1,10 @@
 {% set map = salt['grains.filter_by']({
     'Arch': {
-        'pkgs': ['nagios-nrpe', 'nagios-nrpe-plugin', ],
+        'pkgs': ['nagios-nrpe', 'nagios-plugins', ],
         'service': 'nrpe',
     },
     'RedHat': {
-      'pkgs': ['nrpe', 'nagios-plugins-nrpe', ],
+      'pkgs': ['nrpe', 'nagios-plugins-all', ],
       'service': 'nrpe',
     },
 }, merge=salt['pillar.get']('nrpe:lookup')) %}
