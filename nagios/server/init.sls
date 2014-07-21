@@ -122,7 +122,7 @@ nagios:
 # has to walk all the grains for all the hosts once per file.
 # Plus an additional walk of all the grains to see if the nagios or nagios.nrpe role is defined
 
-  {% from 'nagios/server/process_autoconfig.py' import process_autoconfig %}
+  {% from 'nagios/server/process_autoconfig.py' import process_autoconfig with context %}
 
 /tmp/process_autoconfig:
   file.managed:
