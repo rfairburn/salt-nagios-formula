@@ -38,7 +38,7 @@ nrpe:
         - {{ minion_grains.get('ipv4')[0] }}
       {% endif %}
     {% endfor %}
-  {% end_load %}
+  {% endload %}
   {% load_yaml as additional_config %}
 /etc/nrpe.d/_default_autochecks.cfg:
   options:
