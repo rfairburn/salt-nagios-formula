@@ -42,7 +42,7 @@
       register: '0'
     nrpe-check-salt-minion:
       use: 'generic-service'
-      service_description: 'Swap Utilization'
+      service_description: 'Salt Minion Process'
       check_command: 'check_nrpe!check_salt_minion'
       name: 'nrpe-check-salt-minion'
       register: '0'
