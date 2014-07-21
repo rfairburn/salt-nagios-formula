@@ -70,15 +70,21 @@ nagios:
                                      'nagios/server/files/objects/windows.yaml'] %}
 {% set nagios = pillar.get('nagios', {}) %}
 {% set include_default_files = nagios.get('include_default_files', True) %}
-{% set included_yaml_files = nagios.get('included_yaml_files', []) %}
+# Load defaults first
+{% set included_yaml_files = [] %}
 {% if include_default_files == True %}
   {% do included_yaml_files.extend(default_included_yaml_files) %}
 {% endif %}
-{% set configs = nagios.get('additional_configs', {}) %}
+# Then extend with ones in the pillar
+{% do included_yaml_files.extend(nagios.get('included_yaml_files', [])) %}
+# Create the dict and merge in the included yaml files.
+{% set configs = {} %}
 {% for included_yaml_file in included_yaml_files %}
   {% import_yaml included_yaml_file as cfg_file %}
   {% do configs.update(cfg_file) %}
 {% endfor %}
+# Merge in any additional configs
+{% do configs.update(nagios.get('additional_configs', {})) %}
 {% set autogenerate_checks = nagios.get('autogenerate_checks', True) %}
 {% if autogenerate_checks == True %}
 # Load from the pillar first
