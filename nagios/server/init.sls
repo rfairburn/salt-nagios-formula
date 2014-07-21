@@ -121,21 +121,12 @@ nagios:
 # Try and limit the number of files created with autogeneration as it 
 # has to walk all the grains for all the hosts once per file.
 # Plus an additional walk of all the grains to see if the nagios or nagios.nrpe role is defined
-  {% set process_autoconfig = False %}
-  {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
-    {% set minion_roles = minion_grains.get('roles', []) %}
-    {% if ('nagios' in minion_roles) or ('nagios.nrpe' in minion_roles) %}
-      {% set process_autoconfig = True %}
-    {% endif %}
-/tmp/{{ minion_id }}:
-  file.managed:
-    - user: nagios
-    - group: nagios
-    - mode: 664
-    - contents:
-        [{{ minion_roles }}, 
-        '{{ process_autoconfig }}']
-  {% endfor %} 
+  {% set all_minion_grains = salt['mine.get']('*', 'grains.items') %}
+  {% if 'nagios' in all_minion_grains or 'nagios.nrpe' in all_minion_grains %}
+    {% set process_autoconfig = True %}
+  {% else %}
+    {% set process_autoconfig = False %}
+  {% endif %}
 
 /tmp/process_autoconfig:
   file.managed:
