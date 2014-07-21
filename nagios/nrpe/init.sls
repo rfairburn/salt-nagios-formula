@@ -36,7 +36,7 @@ nrpe:
     [
     {% for minion_id,minion_grains in salt['mine.get']('*', 'grains.items').items() %}
       {% set minion_roles = minion_grains.get('roles', []) %}
-      {% if 'nagios' in minion_roles or 'nagios.nrpe' in minion_roles %}
+      {% if 'nagios' in minion_roles or 'nagios.server' in minion_roles %}
         {{ minion_grains.get('ipv4')[0] }},
       {% endif %}
     {% endfor %}
