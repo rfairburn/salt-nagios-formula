@@ -34,11 +34,10 @@ nrpe:
   {% load_yaml as additional_config %}
 /etc/nrpe.d/_default_autochecks.cfg:
   commands:
-    check_disks: '/usr/lib64/nagios/plugins/check_disk -w 20 -c 10 -A -X tmpfs -X devtmpfs'
+    check_all_disks: '/usr/lib64/nagios/plugins/check_disk -w 20 -c 10 -A -l -X tmpfs -X devtmpfs'
     check_total_procs: '/usr/lib64/nagios/plugins/check_procs -w 150 -c 200'
     check_load: '/usr/lib64/nagios/plugins/check_load -w 15,10,5 -c 30,25,20'
     check_users: '/usr/lib64/nagios/plugins/check_users -w 5 -c 10'
-    check_hda1: '/usr/lib64/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1'
     check_zombie_procs: '/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s Z'
     check_salt_minion: '/usr/lib64/nagios/plugins/check_procs -w 1:1 -c 1:1 -C salt-minion -u root'
   {% endload %}
