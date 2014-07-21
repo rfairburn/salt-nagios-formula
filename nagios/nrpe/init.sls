@@ -53,6 +53,7 @@ nrpe:
     check_users: '/usr/lib64/nagios/plugins/check_users -w 5 -c 10'
     check_zombie_procs: '/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s Z'
     check_salt_minion: '/usr/lib64/nagios/plugins/check_procs -w 1:1 -c 1:1 -C salt-minion -u root'
+    check_swap: '/usr/lib64/nagios/plugins/check_swap -w 10 -c 5'
   {% endload %}
 {% endif %}
 {% do additional_configs.update(additional_config) %}
