@@ -51,6 +51,8 @@ Example Pillar
         USER2: /usr/lib/nagios/plugins
       passwd_cfg:
         nagiosadmin: RbdO4ou4PNyMg
+      cgi_cfg:
+        physical_html_path: /usr/share/nagios/html
       include_default_files: True
       autogenerate_checks: True
       use_default_autcheck_template: True
