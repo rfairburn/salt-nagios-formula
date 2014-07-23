@@ -23,8 +23,8 @@ Available states
 ----------
     Setup nrpe and auto populate server to be monitored with default checks
 
-----------
-``Example Pillar``
+Example Pillar
+================
 
 .. note ::
 
