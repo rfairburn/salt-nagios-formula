@@ -1,27 +1,27 @@
 /etc/nagios/objects/printer.cfg:
   host:
     hplj2605dn:
-      use: 'generic-printer '
-      host_name: 'hplj2605dn '
-      alias: 'HP LaserJet 2605dn '
-      address: '192.168.1.30 '
-      hostgroups: 'network-printers '
+      - use: 'generic-printer '
+      - host_name: 'hplj2605dn '
+      - alias: 'HP LaserJet 2605dn '
+      - address: '192.168.1.30 '
+      - hostgroups: 'network-printers '
   hostgroup:
     network-printers:
-      hostgroup_name: 'network-printers '
-      alias: 'Network Printers '
+      - hostgroup_name: 'network-printers '
+      - alias: 'Network Printers '
   service:
     PrinterStatus:
-      use: 'generic-service '
-      host_name: 'hplj2605dn '
-      service_description: 'Printer Status '
-      check_command: 'check_hpjd!-C public '
-      normal_check_interval: '10 '
-      retry_check_interval: '1 '
+      - use: 'generic-service '
+      - host_name: 'hplj2605dn '
+      - service_description: 'Printer Status '
+      - check_command: 'check_hpjd!-C public '
+      - normal_check_interval: '10 '
+      - retry_check_interval: '1 '
     PING:
-      use: 'generic-service'
-      host_name: 'hplj2605dn'
-      service_description: 'PING'
-      check_command: 'check_ping!3000.0,80%!5000.0,100%'
-      normal_check_interval: '10'
-      retry_check_interval: '1'
+      - use: 'generic-service'
+      - host_name: 'hplj2605dn'
+      - service_description: 'PING'
+      - check_command: 'check_ping!3000.0,80%!5000.0,100%'
+      - normal_check_interval: '10'
+      - retry_check_interval: '1'
