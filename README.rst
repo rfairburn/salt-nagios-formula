@@ -5,11 +5,10 @@ Salt formula to set up and manage nagios and nrpe.
 
 .. note::
 
-    See the full `Salt Formulas installation and usage instructions
-    <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
     This formula has fuctionality to automatically generate checks based upon hosts with nagios.nrpe configured.  
     This functionality relies heavily on a salt mine being configured at a minimum with grains.items.
-
+    See the full `Salt Formulas installation and usage instructions
+    <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
 
 
 
