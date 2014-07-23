@@ -98,32 +98,32 @@ nagios:
       /etc/nagios/conf.d/autogen_hosts.cfg:
         host:
           host_name:
-            use: linux-server
-            host_name: __host_name
-            alias: __alias
-            address: __address
+            - use: linux-server
+            - host_name: __host_name
+            - alias: __alias
+            - address: __address
         service:
           nrpe-check-load:
-            use: 'nrpe-check-load'
-            host_name: __host_name
+            - use: 'nrpe-check-load'
+            - host_name: __host_name
           nrpe-check-users:
-            use: 'nrpe-check-users'
-            host_name: __host_name
+            - use: 'nrpe-check-users'
+            - host_name: __host_name
           nrpe-check-totprocs:
-            use: 'nrpe-check-totprocs'
-            host_name: __host_name
+            - use: 'nrpe-check-totprocs'
+            - host_name: __host_name
           nrpe-check-zombie-procs:
-            use: 'nrpe-check-zombie-procs'
-            host_name: __host_name
+            - use: 'nrpe-check-zombie-procs'
+            - host_name: __host_name
           nrpe-check-all-disks:
-            use: 'nrpe-check-all-disks'
-            host_name: __host_name
+            - use: 'nrpe-check-all-disks'
+            - host_name: __host_name
           nrpe-check-swap:
-            use: 'nrpe-check-swap'
-            host_name: __host_name
+            - use: 'nrpe-check-swap'
+            - host_name: __host_name
           nrpe-check-salt-minion:
-            use: 'nrpe-check-salt-minion'
-            host_name: __host_name
+            - use: 'nrpe-check-salt-minion'
+            - host_name: __host_name
     {% endload %}
     {% do autocheck_configs.update(default_autocheck_cfg) %}
   {% endif %}
@@ -165,12 +165,13 @@ nagios:
 ## save these values to iterate over later.  Will prevent a huge nested if by using a for loop.
               {% for object_name, defines in objects.items() %}
             {{ object_name }}_{{ host_name }}:
-                {% for define_name,define_value in defines.items() %}
+                {% for define in defines %}
+                  {% set define_name, define_value = define.items()[0] %}
 ## Super ugly. Find a better way to iterate these.
                   {% set define_value = define_value.replace('__alias', alias) %}
                   {% set define_value = define_value.replace('__host_name', host_name) %}
                   {% set define_value = define_value.replace('__address', address) %}
-              {{ define_name }}: {{ define_value }}  
+              - {{ define_name }}: {{ define_value }}  
                 {% endfor %}
               {% endfor %}
             {% endif %}
