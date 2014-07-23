@@ -200,7 +200,7 @@ nagios:
 {% endfor %}
 # private should have more restricted permissions
 /etc/nagios/private:
-  file.directory
+  file.directory:
     - user: root
     - group: nagios
     - mode: 750
