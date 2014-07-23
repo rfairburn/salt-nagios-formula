@@ -182,6 +182,30 @@ nagios:
   {% endif %}
 {% endif %}
 
+# Set directories to be managed by formula. 
+{% set cfg_dirs = nagios.get('config:cfg_dirs', []) %}
+{% set default_cfg_dirs = ['/etc/nagios', '/etc/nagios/conf.d', '/etc/nagios/objects'] %}
+{% for cfg_dir in default_cfg_dirs %}
+  {% if cfg_dir not in cfg_dirs %}
+    {% do cfg_dirs.extend([cfg_dir]) %}
+  {% endif %}
+{% endfor %}
+{% for cfg_dir in cfg_dirs %}
+{{ cfg_dir }}:
+  file.directory:
+    - user: nagios
+    - group: nagios
+    - mode: 775
+    - makedirs: True
+{% endfor %}
+# private should have more restricted permissions
+/etc/nagios/private:
+  file.directory
+    - user: root
+    - group: nagios
+    - mode: 750
+    - makedirs: True
+# Create files via the above generated configs
 {% for file_name,context in configs.items() %}
 {{ file_name }}:
   file.managed:
