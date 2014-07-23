@@ -59,12 +59,12 @@ Example Pillar
         /tmp/test.cfg:
           service:
             foo_service:
-              foo_setting: foo_value
-              foo_setting2: another_foo_value
+              - foo_setting: foo_value
+              - foo_setting2: another_foo_value
           host:
             foo_host:
-              foo_setting: foo_value
-              foo_setting2: another_foo_value 
+              - foo_setting: foo_value
+              - foo_setting2: another_foo_value 
     
     nrpe:
       config:
