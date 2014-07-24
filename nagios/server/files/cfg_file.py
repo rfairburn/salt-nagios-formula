@@ -12,5 +12,5 @@ def run():
       for define in define_list:
         item,value = define.items()[0]
         output += "    " + item.ljust(length) + " " + value + "\n"
-      output += "}\n\n"
+      output += "}\n\n\n\n"
   return output
