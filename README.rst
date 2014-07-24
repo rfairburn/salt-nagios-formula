@@ -55,7 +55,7 @@ Example Pillar
         physical_html_path: /usr/share/nagios/html
       include_default_files: True
       autogenerate_checks: True
-      use_default_autcheck_template: True
+      use_default_autocheck_template: True
       included_config_files: []
       additional_configs:
         /tmp/test.cfg:
@@ -78,7 +78,7 @@ Example Pillar
           check_zombie_procs: '/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s Z'
           check_xvda1: '/usr/lib64/nagios/plugins/check_disk -w 20% -c 10% -p /dev/xvda1'
         dont_blame_nrpe: 1
-      use_default_autcheck_template: True
+      use_default_autocheck_template: True
       additional_configs:
         /etc/nrpe.d/test.cfg:
           options:
