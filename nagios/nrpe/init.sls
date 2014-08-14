@@ -55,8 +55,8 @@ nrpe:
     check_salt_minion: '/usr/lib64/nagios/plugins/check_procs -w 1:1 -c 1:1 -C salt-minion -u root'
     check_swap: '/usr/lib64/nagios/plugins/check_swap -w 10% -c 5%'
   {% endload %}
-{% endif %}
 {% do additional_configs.update(additional_config) %}
+{% endif %}
 {% do additional_configs.update( nrpe.get('additional_configs', {})) %}
 # FIXME: probably should support external yaml files like the main nagios configs
 # but these will typically be much smaller files
